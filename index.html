@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mutual Aid — Quaker Discernment</title>
+<style>
+  :root{
+    --bg:#f6f9fc; --panel:#ffffff; --ink:#33475c; --muted:#72869c;
+    --line:#d8e3ee; --accent:#6f93bf; --accent-dark:#3d6693; --star:#2f5f8f;
+    --accent-solid:#2f4d75;
+    --chip:#eaf1f8; --shadow: 0 2px 10px rgba(51,71,92,0.07);
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#182028; --panel:#212b36; --ink:#e9eef4; --muted:#9fb0c2;
+      --line:#33414f; --accent:#8fb2db; --accent-dark:#b7d1ec; --star:#9bc0e5;
+      --accent-solid:#3a5f8a;
+      --chip:#243040; --shadow: 0 2px 14px rgba(0,0,0,0.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#182028; --panel:#212b36; --ink:#e9eef4; --muted:#9fb0c2;
+    --line:#33414f; --accent:#8fb2db; --accent-dark:#b7d1ec; --star:#9bc0e5;
+    --accent-solid:#3a5f8a;
+    --chip:#243040; --shadow: 0 2px 14px rgba(0,0,0,0.4);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  header{
+    padding:28px 20px 18px; max-width:980px; margin:0 auto;
+  }
+  header h1{
+    font-size:1.5rem; margin:0 0 6px; letter-spacing:.2px;
+  }
+  header p{
+    margin:0; color:var(--muted); font-size:.95rem; max-width:720px;
+  }
+  blockquote.opening-quote{
+    margin:16px 0 0; padding:14px 18px; max-width:720px;
+    background:var(--chip); border-left:4px solid var(--accent-solid); border-radius:0 var(--radius) var(--radius) 0;
+    font-size:1rem; font-style:italic; color:var(--ink); line-height:1.55;
+  }
+  nav.tabs{
+    display:flex; gap:8px; max-width:980px; margin:14px auto 0; padding:0 20px;
+    flex-wrap:wrap;
+  }
+  nav.tabs button{
+    font-family:inherit; font-size:.95rem; padding:9px 16px; border-radius:999px;
+    border:1px solid var(--line); background:var(--panel); color:var(--ink);
+    cursor:pointer; transition:background .15s, color .15s;
+  }
+  nav.tabs button[aria-selected="true"]{
+    background:var(--accent-solid); color:#fff; border-color:var(--accent-solid);
+  }
+  main{max-width:980px; margin:0 auto; padding:18px 20px 60px;}
+  section.panel{display:none;}
+  section.panel.active{display:block;}
+
+  .search-row{display:flex; gap:10px; margin:0 0 18px; flex-wrap:wrap;}
+  input[type="search"]{
+    flex:1; min-width:200px; font-family:inherit; font-size:.95rem;
+    padding:10px 14px; border-radius:10px; border:1px solid var(--line);
+    background:var(--panel); color:var(--ink);
+  }
+  select{
+    font-family:inherit; font-size:.9rem; padding:10px 12px; border-radius:10px;
+    border:1px solid var(--line); background:var(--panel); color:var(--ink);
+  }
+
+  .callout{
+    background:var(--chip); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px 20px; margin-bottom:24px; box-shadow:var(--shadow);
+  }
+  .callout h2{margin:0 0 10px; font-size:1.05rem; color:var(--star);}
+  .callout ul{margin:0; padding-left:1.1em;}
+  .callout li{margin-bottom:8px;}
+
+  details.blog-group{
+    border:1px solid var(--line); border-radius:var(--radius); background:var(--panel);
+    margin-bottom:12px; box-shadow:var(--shadow); overflow:hidden;
+  }
+  details.blog-group > summary{
+    cursor:pointer; padding:14px 18px; font-size:1.02rem; font-weight:bold;
+    list-style:none; display:flex; justify-content:space-between; align-items:baseline;
+    gap:10px;
+  }
+  details.blog-group > summary::-webkit-details-marker{display:none;}
+  details.blog-group > summary .count{
+    font-weight:normal; font-size:.82rem; color:var(--muted);
+  }
+  details.blog-group .era{
+    padding:0 18px 4px; font-size:.85rem; color:var(--muted); font-style:italic;
+  }
+  ul.post-list{list-style:none; margin:0; padding:4px 18px 16px;}
+  ul.post-list li{
+    padding:7px 0; border-top:1px solid var(--line); font-size:.94rem;
+  }
+  ul.post-list li:first-child{border-top:none;}
+  .pdate{color:var(--muted); font-size:.85rem; margin-right:8px; white-space:nowrap;}
+  a{color:var(--accent-dark); text-decoration:none; border-bottom:1px solid transparent;}
+  a:hover{border-bottom-color:var(--accent-dark);}
+  .star{color:var(--star);}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px;}
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 18px; box-shadow:var(--shadow);
+  }
+  .card h3{margin:0 0 8px; font-size:1.02rem;}
+  .card p{margin:0 0 10px; font-size:.92rem; color:var(--ink);}
+  .card .tag{
+    display:inline-block; font-size:.74rem; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--muted); margin-bottom:6px;
+  }
+  .card.personal{border-color:var(--star); background:var(--chip);}
+  .card.personal h3::before{content:"⭐ "; color:var(--star);}
+  footer{
+    max-width:980px; margin:0 auto; padding:0 20px 50px; color:var(--muted); font-size:.85rem;
+  }
+  .no-results{color:var(--muted); font-style:italic; padding:20px 0;}
+
+  .compare-wrap{overflow-x:auto; margin-bottom:28px; border-radius:var(--radius); box-shadow:var(--shadow);}
+  table.compare{width:100%; border-collapse:collapse; background:var(--panel); min-width:520px;}
+  table.compare th{
+    text-align:left; font-size:.78rem; text-transform:uppercase; letter-spacing:.04em;
+    padding:12px 16px; border-bottom:2px solid var(--line); color:var(--muted);
+  }
+  table.compare th.col-yes{color:var(--accent-dark);}
+  table.compare td{padding:12px 16px; border-bottom:1px solid var(--line); font-size:.92rem; vertical-align:top;}
+  table.compare tr:last-child td{border-bottom:none;}
+  table.compare td.col-yes{border-right:1px solid var(--line);}
+
+  .examples-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-bottom:28px;}
+  .ex-card{border-radius:var(--radius); padding:14px 16px; font-size:.9rem; box-shadow:var(--shadow);}
+  .ex-card.yes{background:var(--chip); border:1px solid var(--accent-dark);}
+  .ex-card.no{background:var(--panel); border:1px solid var(--line);}
+  .ex-tag{display:inline-block; font-size:.72rem; font-weight:bold; text-transform:uppercase; letter-spacing:.05em; padding:2px 9px; border-radius:999px; margin-bottom:8px;}
+  .ex-card.yes .ex-tag{background:var(--accent-solid); color:#fff;}
+  .ex-card.no .ex-tag{background:var(--line); color:var(--muted);}
+
+  textarea#checker-input{
+    width:100%; font-family:inherit; font-size:.95rem; padding:12px 14px; border-radius:10px;
+    border:1px solid var(--line); background:var(--panel); color:var(--ink); resize:vertical;
+    margin-bottom:18px;
+  }
+  .qlist{display:flex; flex-direction:column; gap:14px; margin-bottom:18px;}
+  .qitem{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; box-shadow:var(--shadow);}
+  .qitem p{margin:0 0 10px; font-size:.92rem;}
+  .qitem .opts{display:flex; gap:16px; flex-wrap:wrap;}
+  .qitem label{display:flex; align-items:center; gap:6px; font-size:.88rem; cursor:pointer;}
+  .run-btn{
+    font-family:inherit; font-size:.95rem; font-weight:bold; padding:11px 22px; border-radius:999px;
+    border:none; background:var(--accent-solid); color:#fff; cursor:pointer; margin-bottom:20px;
+  }
+  .run-btn:hover{opacity:.92;}
+  .result{border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow); margin-bottom:10px;}
+  .result.verdict-strong{background:var(--chip); border:1px solid var(--accent-dark);}
+  .result.verdict-mixed{background:var(--panel); border:1px solid var(--line);}
+  .result.verdict-weak{background:var(--panel); border:1px dashed var(--muted);}
+  .result h3{margin:0 0 10px; font-size:1.02rem;}
+  .result ul{margin:10px 0 0; padding-left:1.2em; font-size:.9rem;}
+  .result li{margin-bottom:6px;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Mutual Aid — Quaker Discernment</h1>
+  <p>Reference material gathered the morning of Oct 25, 2026: Jeff Kisling's own writing on mutual aid across his eight blogs (2015–present), a look at Iowa Mutual Aid's current, operating projects, and a plain-language check for what mutual aid is and isn't. Built for Quaker meeting's discernment on moving from committee to mutual aid.</p>
+  <blockquote class="opening-quote">I did not really understand mutual aid until someone had to point out to me directly — that I wasn't actually acting as part of the community unless I also took some of the donated food myself.</blockquote>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" aria-selected="true" data-target="writings">My Writings on Mutual Aid</button>
+  <button role="tab" aria-selected="false" data-target="iowa">Iowa Mutual Aid — Current Projects</button>
+  <button role="tab" aria-selected="false" data-target="checker">Is This Mutual Aid?</button>
+</nav>
+
+<main>
+  <section class="panel active" id="writings">
+    <div class="search-row">
+      <input type="search" id="writings-search" placeholder="Search titles…" aria-label="Search posts">
+      <select id="writings-blog-filter" aria-label="Filter by blog">
+        <option value="">All blogs</option>
+      </select>
+    </div>
+
+    <div class="callout">
+      <h2>⭐ Most directly relevant to Bear Creek right now</h2>
+      <ul>
+        <li><strong><a href="https://newconscientiousobjector.com/2025/06/27/earlham-bear-creek-mutual-aid/" target="_blank" rel="noopener">Earlham-Bear Creek Mutual Aid</a></strong> (2025-06-27, New Conscientious Objector) — an initial look at Bear Creek Meeting developing more intentional mutual aid resources with the wider Earlham community.</li>
+        <li><strong><a href="https://newconscientiousobjector.com/2025/06/27/consolidated-history-of-iymc-mutual-aid/" target="_blank" rel="noopener">Consolidated history of IYMC Mutual Aid</a></strong> (2025-06-27, New Conscientious Objector) — a historical analysis of Iowa Yearly Meeting (Conservative)'s past social welfare activities through the lens of mutual aid versus charity.</li>
+        <li><strong>An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK</strong> — written three times: <a href="https://landbackfriends.com/2023/10/09/an-epistle-to-friends-regarding-community-mutual-aid-and-landback/" target="_blank" rel="noopener">LANDBACK Friends, 2023-10-09</a> · <a href="https://unflinching.blog/2025/01/24/an-epistle-to-friends-regarding-community-mutual-aid-and-landback/" target="_blank" rel="noopener">Unflinching, 2025-01-24</a> · <a href="https://newconscientiousobjector.com/2025/10/29/an-epistle-to-friends-regarding-community-mutual-aid-and-landback/" target="_blank" rel="noopener">NewCO, 2025-10-29</a> — Jeff's standing epistle laying out the theological case to Friends.</li>
+        <li><strong><a href="https://newconscientiousobjector.com/2025/07/01/bridging-mutual-aid-and-decolonial-justice/" target="_blank" rel="noopener">Bridging Mutual Aid and Decolonial Justice</a></strong> (2025-07-01, NewCO) — connects the Prairie Awakening/Prairie Awoke event at Kuehn Conservation Area to the wider mutual aid and decolonial work.</li>
+      </ul>
+    </div>
+
+    <div id="writings-list"></div>
+    <div class="no-results" id="writings-empty" style="display:none;">No posts match that search.</div>
+  </section>
+
+  <section class="panel" id="iowa">
+    <div class="callout">
+      <h2 class="star" style="color:var(--star)">⭐ Jeff's past work</h2>
+      <div class="cards">
+        <div class="card personal">
+          <h3>The Prison Abolition Letter Writing Project</h3>
+          <p>Builds and maintains a solidarity network connecting people incarcerated in Iowa with friends, family, and community members outside — amplifying incarcerated people's voices toward collective liberation.</p>
+          <p><strong>Jeff wrote letters through this project for a period of time. He is no longer involved, but the work remained important to him.</strong></p>
+          <p><a href="https://iowamutualaid.org/prison-abolition-letters-1" target="_blank" rel="noopener">More information →</a></p>
+        </div>
+      </div>
+    </div>
+
+    <h2 style="font-size:1.05rem; margin:28px 0 14px;">Other current Iowa Mutual Aid projects</h2>
+    <div class="cards" id="iowa-cards"></div>
+
+    <p style="margin-top:28px; color:var(--muted); font-size:.85rem;">
+      Source: <a href="https://iowamutualaid.org/current-projects" target="_blank" rel="noopener">iowamutualaid.org/current-projects</a>
+    </p>
+  </section>
+
+  <section class="panel" id="checker">
+    <div class="callout">
+      <h2>The core distinction</h2>
+      <p>Mutual aid is not the same as charity, even when both involve people helping people. The difference isn't how kind the act feels — it's the relationship between the people involved.</p>
+    </div>
+
+    <div class="compare-wrap">
+      <table class="compare">
+        <thead><tr><th class="col-yes">Mutual Aid</th><th>Charity / Conventional Aid</th></tr></thead>
+        <tbody>
+          <tr><td class="col-yes">Solidarity — people help each other because they're affected by the same conditions</td><td>A giver helps a receiver who is in a different position</td></tr>
+          <tr><td class="col-yes">No eligibility sorting — anyone can take part, no application or means test</td><td>Gatekept — you must qualify, apply, or prove need or worthiness</td></tr>
+          <tr><td class="col-yes">Shared power — the people affected help decide how it works</td><td>Top-down — a board, staff, or agency decides for recipients</td></tr>
+          <tr><td class="col-yes">Builds lasting collective capacity and addresses root causes</td><td>Meets an immediate need without changing what caused it</td></tr>
+          <tr><td class="col-yes">Often exists because institutions are failing or excluding people</td><td>Usually works through, or alongside, existing institutions</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 style="font-size:1.05rem; margin:28px 0 14px;">Real examples, side by side</h2>
+    <div class="examples-grid" id="examples-grid"></div>
+
+    <h2 style="font-size:1.05rem; margin:28px 0 14px;">Check your own example</h2>
+    <p style="color:var(--muted); font-size:.92rem; margin:-4px 0 16px;">Describe something you think might be mutual aid — a program, an action, an idea for Bear Creek — then answer the five questions about it as honestly as you can. This is a way to think it through, not a verdict machine.</p>
+
+    <textarea id="checker-input" rows="3" placeholder="Describe the activity, program, or idea you're weighing…"></textarea>
+
+    <div class="qlist" id="qlist"></div>
+
+    <button class="run-btn" id="checker-run">Check it</button>
+
+    <div class="result" id="checker-result" hidden></div>
+  </section>
+</main>
+
+<footer>
+  Compiled for Bear Creek Friends Meeting. Full text of Jeff's posts lives on his Drive under <code>1.0 All Blog Posts/&lt;blog-name&gt;/&lt;year&gt;/</code>. Companion documents: <em>mutual-aid-writings-index.md</em> and <em>iowa-mutual-aid-current-projects.md</em>.
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---- Data: Jeff's mutual-aid writings, grouped by blog ----
+  var BLOGS = [
+    {
+      name: "Quakers, Social Justice and Revolution",
+      era: "2015-01-04 to 2021-09-27 — the origin blog. Mutual Aid enters as a named practice in August 2020.",
+      posts: [
+        ["2020-03-17","Solidarity in a pandemic: digital week of action","https://jeffkisling.com/2020/03/17/solidarity-in-a-pandemic-digital-week-of-action/"],
+        ["2020-08-24","Des Moines Mutual Aid and Resisting the Police State","https://jeffkisling.com/2020/08/24/des-moines-mutual-aid-and-resisting-the-police-state/"],
+        ["2020-10-11","Mutual Aid in Brazil and Iowa","https://jeffkisling.com/2020/10/11/mutual-aid-in-brazil-and-iowa/"],
+        ["2020-10-20","★ Quakers and Mutual Aid","https://jeffkisling.com/2020/10/20/quakers-and-mutual-aid/"],
+        ["2020-10-24","Mutual Aid for Social Concerns","https://jeffkisling.com/2020/10/24/mutual-aid-for-social-concerns/"],
+        ["2020-10-26","The Future of Pandemic Solidarity","https://jeffkisling.com/2020/10/26/the-future-of-pandemic-solidarity/"],
+        ["2020-10-29","A Radical Act","https://jeffkisling.com/2020/10/29/a-radical-act/"],
+        ["2020-11-06","Mutual Aid 101 #WeGotOurBlock","https://jeffkisling.com/2020/11/06/mutual-aid-101-wegotourblock/"],
+        ["2020-11-07","Rural Mutual Aid","https://jeffkisling.com/2020/11/07/rural-mutual-aid/"],
+        ["2020-11-09","The web of organizing and organizers","https://jeffkisling.com/2020/11/09/the-web-of-organizing-and-organizers/"],
+        ["2020-11-12","Celebrating holidays with mutual aid","https://jeffkisling.com/2020/11/12/celebrating-holidays-with-mutual-aid/"],
+        ["2020-11-13","Flat or hierarchical world view?","https://jeffkisling.com/2020/11/13/flat-or-hierarchical-world-view/"],
+        ["2020-11-28","Urgency for Mutual Aid","https://jeffkisling.com/2020/11/28/urgency-for-mutual-aid/"],
+        ["2020-12-01","Mutual Aid Discourages Colonized Ideas","https://jeffkisling.com/2020/12/01/mutual-aid-discourages-colonized-ideas/"],
+        ["2020-12-02","Mutual aid will help us survive the Biden presidency","https://jeffkisling.com/2020/12/02/mutual-aid-will-help-us-survive-the-biden-presidency/"],
+        ["2020-12-06","Study your assumptions","https://jeffkisling.com/2020/12/06/study-your-assumptions/"],
+        ["2020-12-19","Mutual Aid 2020","https://jeffkisling.com/2020/12/18/mutual-aid-2020/"],
+        ["2020-12-23","My Mutual Aid Journey Thus Far","https://jeffkisling.com/2020/12/23/my-mutual-aid-journey-thus-far/"],
+        ["2020-12-27","US Political Meltdown and Mutual Aid","https://jeffkisling.com/2020/12/27/us-political-meltdown-and-mutual-aid/"],
+        ["2020-12-29","Blame private capitalism for social problems","https://jeffkisling.com/2020/12/29/blame-private-capitalism-for-social-problems/"],
+        ["2021-01-05","Religious Socialism – Introduction","https://jeffkisling.com/2021/01/05/religious-socialism-introduction/"],
+        ["2021-01-16","Abolition today","https://jeffkisling.com/2021/01/16/abolition-today/"],
+        ["2021-01-19","Martin Luther King, Abolition and Mutual Aid","https://jeffkisling.com/2021/01/19/martin-luther-king-abolition-and-mutual-aid/"],
+        ["2021-01-24","Unlearning Capitalism","https://jeffkisling.com/2021/01/24/unlearning-capitalism-2/"],
+        ["2021-02-08","Mutual Aid and Colonialism","https://jeffkisling.com/2021/02/08/mutual-aid-and-colonialism/"],
+        ["2021-02-10","Des Moines Mutual Aid and Black Lives Matter ask for help from faith communities","https://jeffkisling.com/2021/02/10/des-moines-mutual-aid-and-black-lives-matter-ask-for-help-from-faith-communities/"],
+        ["2021-02-16","Mutual Aid, Survival, Polar Vortex and the fierce urgency of now","https://jeffkisling.com/2021/02/16/mutual-aid-survival-polar-vortex-and-the-fierce-urgency-of-now/"],
+        ["2021-02-25","Mutual Aid and Black Liberation","https://jeffkisling.com/2021/02/25/mutual-aid-and-black-liberation/"],
+        ["2021-03-28","Feeding the hungry","https://jeffkisling.com/2021/03/28/feeding-the-hungry/"],
+        ["2021-04-01","Decolonizing, Soul Repair and Mutual Aid","https://jeffkisling.com/2021/04/01/decolonizing-soul-repair-and-mutual-aid/"],
+        ["2021-04-09","Des Moines, Police and Protest","https://jeffkisling.com/2021/04/09/des-moines-police-and-protest/"],
+        ["2021-04-18","Concentration camps versus abolition","https://jeffkisling.com/2021/04/18/concentration-camps-versus-abolition/"],
+        ["2021-04-19","Bail Bonds","https://jeffkisling.com/2021/04/19/bail-bonds/"],
+        ["2021-05-27","Acting on our beliefs","https://jeffkisling.com/2021/05/27/acting-on-our-beliefs/"],
+        ["2021-06-11","Quaker Social Concerns as Mutual Aid and LANDBACK","https://jeffkisling.com/2021/06/11/quaker-social-concerns-as-mutual-aid-and-landback/"],
+        ["2021-06-15","New website: LANDBACK Friends","https://jeffkisling.com/2021/06/14/47372/"],
+        ["2021-07-03","Black Children's Memorial burned","https://jeffkisling.com/2021/07/03/black-childrens-memorial-burned/"]
+      ]
+    },
+    {
+      name: "LANDBACK Friends",
+      era: "2021-06-15 to 2024-07-04",
+      posts: [
+        ["2021-07-31","Mutual Aid Case study 1","https://landbackfriends.com/2021/07/31/mutual-aid-case-study-1/"],
+        ["2021-09-03","Mutual Aid and Hurricane Ida","https://landbackfriends.com/2021/09/03/mutual-aid-and-hurricane-ida/"],
+        ["2021-09-10","Civilian Climate Corps and Mutual Aid","https://landbackfriends.com/2021/09/10/civilian-climate-corps-and-mutual-aid/"],
+        ["2021-11-02","Capitalism must be reprogrammed with mutual aid","https://landbackfriends.com/2021/11/02/capitalism-must-be-reprogrammed-with-mutual-aid/"],
+        ["2021-11-11","Mutual Aid or Collapse","https://landbackfriends.com/2021/11/11/mutual-aid-or-collapse/"],
+        ["2021-12-15","Points of Unity","https://landbackfriends.com/2021/12/15/points-of-unity/"],
+        ["2021-12-31","A Call for Quakers to Embrace Mutual Aid","https://landbackfriends.com/2021/12/31/a-call-for-quakers-to-embrace-mutual-aid/"],
+        ["2022-01-02","What I don't know about Mutual Aid","https://landbackfriends.com/2022/01/02/what-i-dont-know-about-mutual-aid/"],
+        ["2022-01-03","Notes to myself","https://landbackfriends.com/2022/01/03/notes-to-myself/"],
+        ["2022-01-04","Notes to myself continued","https://landbackfriends.com/2022/01/04/notes-to-myself-continued/"],
+        ["2022-01-05","Spirituality and Mutual Aid","https://landbackfriends.com/2022/01/05/spirituality-and-mutual-aid/"],
+        ["2022-01-06","Does Mutual Aid speak to your condition?","https://landbackfriends.com/2022/01/06/does-mutual-aid-speak-to-your-condition/"],
+        ["2022-01-05","More notes on Mutual Aid","https://landbackfriends.com/2022/01/05/more-notes-on-mutual-aid/"],
+        ["2022-01-07","Mutual Aid is the Quaker way of being in the world","https://landbackfriends.com/2022/01/07/mutual-aid-is-the-quaker-way-of-being-in-the-world/"],
+        ["2022-01-08","Mutual Aid stories","https://landbackfriends.com/2022/01/08/mutual-aid-stories/"],
+        ["2022-01-12","Introduction to Mutual Aid and hierarchies","https://landbackfriends.com/2022/01/12/introduction-to-mutual-aid-and-hierarchies/"],
+        ["2022-01-15","Not Only Food","https://landbackfriends.com/2022/01/15/not-only-food/"],
+        ["2023-10-09","An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK","https://landbackfriends.com/2023/10/09/an-epistle-to-friends-regarding-community-mutual-aid-and-landback/"]
+      ]
+    },
+    {
+      name: "Quakers and Mutual Aid",
+      era: "2022-01-19 to 2024-02-02 — Jeff's dedicated mutual-aid blog (380 posts total; this subset is explicitly about the practice)",
+      posts: [
+        ["2022-01-21","New paths for faith and justice","https://quakersandreligioussocialism.com/2022/01/21/new-paths-for-faith-and-justice/"],
+        ["2022-02-05","Des Moines Mutual Aid Networking","https://quakersandreligioussocialism.com/2022/02/05/des-moines-mutual-aid-networking/"],
+        ["2022-02-06","The future we want","https://quakersandreligioussocialism.com/2022/02/06/the-future-we-want/"],
+        ["2022-02-13","Usefulness of Mutual Aid Against Our Failing Government","https://quakersandreligioussocialism.com/2022/02/13/usefulness-of-mutual-aid-against-our-failing-government/"],
+        ["2022-02-14","Disaster preparedness","https://quakersandreligioussocialism.com/2022/02/14/disaster-preparedness/"],
+        ["2022-02-18","#StopBurningCoal","https://quakersandreligioussocialism.com/2022/02/18/stopburningcoal/"],
+        ["2022-03-04","Mutual Aid and War","https://quakersandreligioussocialism.com/2022/03/04/mutual-aid-and-war/"],
+        ["2022-03-13","Tool Libraries, Circular Economy, and Mutual Aid","https://quakersandreligioussocialism.com/2022/03/13/tool-libraries-circular-economy-and-mutual-aid/"],
+        ["2022-03-20","Networking","https://quakersandreligioussocialism.com/2022/03/20/networking/"],
+        ["2022-03-21","We Gather Here Today in Disservice of the State","https://quakersandreligioussocialism.com/2022/03/21/we-gather-here-today-in-disservice-of-the-state/"],
+        ["2022-03-24","We Don't Leave Our Fighters Behind","https://quakersandreligioussocialism.com/2022/03/24/we-dont-leave-our-fighters-behind/"],
+        ["2022-03-25","Mutual Aid and Revolution","https://quakersandreligioussocialism.com/2022/03/25/mutual-aid-and-revolution/"],
+        ["2022-03-26","Mutual Aid presentation","https://quakersandreligioussocialism.com/2022/03/26/mutual-aid-presentation/"],
+        ["2022-03-29","Cuba, disaster preparedness, and Mutual Aid","https://quakersandreligioussocialism.com/2022/03/29/cuba-disaster-preparedness-and-mutual-aid/"],
+        ["2022-06-10","Native Americans, Quakers and Mutual Aid","https://quakersandreligioussocialism.com/2022/06/10/native-americans-quakers-and-mutual-aid/"],
+        ["2022-06-13","Mutual Aid and money","https://quakersandreligioussocialism.com/2022/06/13/mutual-aid-and-money/"],
+        ["2022-06-17","The Worker's Summit of the Americas","https://quakersandreligioussocialism.com/2022/06/17/the-workers-summit-of-the-americas/"],
+        ["2022-06-18","A Love Letter to Y'all","https://quakersandreligioussocialism.com/2022/06/18/a-love-letter-to-yall/"],
+        ["2022-06-24","Indigenous, Quaker Mutual Aid","https://quakersandreligioussocialism.com/2022/06/24/indigenous-quaker-mutual-aid/"],
+        ["2022-06-28","Forced to change our ways","https://quakersandreligioussocialism.com/2022/06/28/forced-to-change-our-ways/"],
+        ["2022-07-17","Paradox of Mutual Aid","https://quakersandreligioussocialism.com/2022/07/17/paradox-of-mutual-aid/"],
+        ["2022-07-25","Mutual Aid and Ways of War","https://quakersandreligioussocialism.com/2022/07/25/mutual-aid-and-ways-of-war/"],
+        ["2022-11-30","Mutual Aid now","https://quakersandreligioussocialism.com/2022/11/30/mutual-aid-now/"],
+        ["2022-12-16","Buffalo Rebellion Community Call: GPAS and Mutual Aid","https://quakersandreligioussocialism.com/2022/12/16/buffalo-rebellion-community-call-great-plains-action-society-and-mutual-aid/"],
+        ["2022-12-26","Prefigurative societies and mutual aid","https://quakersandreligioussocialism.com/2022/12/26/prefigurative-societies-and-mutual-aid/"],
+        ["2022-12-30","Transformative Mutual Aid Practices (Part 1)","https://quakersandreligioussocialism.com/2022/12/30/transformative-mutual-aid-practices/"],
+        ["2022-12-31","Transformative Mutual Aid Practices (Part 2)","https://quakersandreligioussocialism.com/2022/12/31/transformative-mutual-aid-practices-part-2/"],
+        ["2023-01-02","Who created this zine and why?","https://quakersandreligioussocialism.com/2023/01/02/who-created-this-zine-and-why/"],
+        ["2023-01-09","Origins of T-MAPs","https://quakersandreligioussocialism.com/2023/01/09/origins-of-t-maps/"],
+        ["2023-01-10","New and creative ways of living","https://quakersandreligioussocialism.com/2023/01/10/new-and-creative-ways-of-living/"],
+        ["2023-01-12","Connection and Vision","https://quakersandreligioussocialism.com/2023/01/12/connection-and-vision/"],
+        ["2023-01-16","Martin Luther King and Mutual Aid","https://quakersandreligioussocialism.com/2023/01/16/martin-luther-king-and-mutual-aid/"],
+        ["2023-01-20","T-MAPs 4: Slipping off the Tracks","https://quakersandreligioussocialism.com/2023/01/20/t-maps-4-slipping-off-the-tracks/"],
+        ["2023-01-26","T-MAPs Section 5: Support","https://quakersandreligioussocialism.com/2023/01/25/t-maps-section-5-support/"],
+        ["2023-02-14","Spirit, Justice, Mutual Aid, Healing and Survival","https://quakersandreligioussocialism.com/2023/02/14/spirit-justice-mutual-aid-healing-and-survival/"],
+        ["2023-02-23","CECOSESOLA: Building, here and now, the world we yearn for","https://quakersandreligioussocialism.com/2023/02/23/cecosesola-building-here-and-now-the-world-we-yearn-for/"],
+        ["2023-03-27","Mutual Aid Monthly","https://quakersandreligioussocialism.com/2023/03/27/mutual-aid-monthly/"],
+        ["2023-04-27","Injustices of Capitalism","https://quakersandreligioussocialism.com/2023/04/27/injustices-of-capitalism/"],
+        ["2023-05-21","Mutual Aid Monthly (2)","https://quakersandreligioussocialism.com/2023/05/21/mutual-aid-monthly-2/"],
+        ["2023-10-18","Transformative Mutual Aid Practices Part 2","https://quakersandreligioussocialism.com/2023/10/18/transformative-mutual-aid-practices-part-2-2/"],
+        ["2023-10-20","T-MAPs and your own story","https://quakersandreligioussocialism.com/2023/10/20/t-maps-and-your-own-story/"],
+        ["2024-01-05","Des Moines Mutual Aid Anti-war Actions","https://quakersandreligioussocialism.com/2024/01/05/des-moines-mutual-aid-anti-war-actions/"]
+      ]
+    },
+    {
+      name: "Unflinching",
+      era: "2024-02-02 to 2025-07-10",
+      posts: [
+        ["2024-03-12","Mutual Aid is Nonviolent","https://unflinching.blog/2024/03/12/mutual-aid-is-nonviolent/"],
+        ["2024-03-21","Mutual Aid is the Quaker Way of Being in the World","https://unflinching.blog/2024/03/21/mutual-aid-is-the-quaker-way-of-being-in-the-world/"],
+        ["2024-04-14","IRAN and Des Moines Mutual Aid","https://unflinching.blog/2024/04/14/iran-and-des-moines-mutual-aid/"],
+        ["2024-04-15","Morality: Iran, Israel/US, Gaza","https://unflinching.blog/2024/04/15/morality-iran-israel-us-gaza/"],
+        ["2024-05-01","Quaker Practice and Mutual Aid","https://unflinching.blog/2024/05/01/quaker-practice-and-mutual-aid/"],
+        ["2024-05-04","Quaker Practice and Mutual Aid Part 2","https://unflinching.blog/2024/05/04/quaker-practice-and-mutual-aid-part-2/"],
+        ["2024-10-05","Mutual Aid responses to Helene","https://unflinching.blog/2024/10/05/mutual-aid-responses-to-helene/"],
+        ["2025-01-22","Our chance","https://unflinching.blog/2025/01/22/our-chance/"],
+        ["2025-01-23","Spirit, Justice, Mutual Aid, Healing and Survival","https://unflinching.blog/2025/01/23/spirit-justice-mutual-aid-healing-and-survival/"],
+        ["2025-01-24","An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK","https://unflinching.blog/2025/01/24/an-epistle-to-friends-regarding-community-mutual-aid-and-landback/"],
+        ["2025-07-10","New website","https://unflinching.blog/2025/07/10/new-website/"]
+      ]
+    },
+    {
+      name: "New Conscientious Objector (NewCO)",
+      era: "2025-01-29 to 2026-03-16",
+      posts: [
+        ["2025-06-25","A Revolutionary Act","https://newconscientiousobjector.com/2025/06/25/a-revolutionary-act/"],
+        ["2025-06-27","★ Consolidated history of IYMC Mutual Aid","https://newconscientiousobjector.com/2025/06/27/consolidated-history-of-iymc-mutual-aid/"],
+        ["2025-06-27","★ Earlham-Bear Creek Mutual Aid","https://newconscientiousobjector.com/2025/06/27/earlham-bear-creek-mutual-aid/"],
+        ["2025-06-30","The Enduring Call","https://newconscientiousobjector.com/2025/06/30/the-enduring-call/"],
+        ["2025-07-01","★ Bridging Mutual Aid and Decolonial Justice","https://newconscientiousobjector.com/2025/07/01/bridging-mutual-aid-and-decolonial-justice/"],
+        ["2025-07-07","'Learn About' abolition, Quakers and Mutual Aid","https://newconscientiousobjector.com/2025/07/07/learn-about-abolition-quakers-and-mutual-aid/"],
+        ["2025-07-08","Abolitionist Legacies","https://newconscientiousobjector.com/2025/07/08/abolitionist-legacies/"],
+        ["2025-08-07","Decolonial Journey 13 – Abolition","https://newconscientiousobjector.com/2025/08/07/decolonial-journey-13/"],
+        ["2025-08-09","Decolonizing Study Guide","https://newconscientiousobjector.com/2025/08/09/decolonizing-study-guide/"],
+        ["2025-08-09","VIDEO: A Praxis for a New World","https://newconscientiousobjector.com/2025/08/09/video-a-praxis-for-a-new-world/"],
+        ["2025-10-29","An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK","https://newconscientiousobjector.com/2025/10/29/an-epistle-to-friends-regarding-community-mutual-aid-and-landback/"],
+        ["2026-02-01","Minneapolis as an example of mutual aid","https://newconscientiousobjector.com/2026/02/01/minneapolis-as-an-example-of-mutual-aid/"],
+        ["2026-03-09","The Alliance Catalog","https://newconscientiousobjector.com/2026/03/09/the-alliance-catalog/"]
+      ]
+    },
+    {
+      name: "Active Objection & Channels Into Knowledge",
+      era: "2026-04-07 to present — Great Plains Action Society / Urban Resilience Hub, including the planned Mutual Aid Café",
+      posts: [
+        ["2026-05-14","Engaging with the Urban Resilience Hub","https://activeobjection.substack.com/p/engaging-with-the-urban-resilience"],
+        ["2026-06-19","Scattergood and the Hub","https://activeobjection.substack.com/p/scattergood-and-the-hub"],
+        ["2026-06-21","Introduction to the Hub","https://activeobjection.substack.com/p/introduction-to-the-hub"],
+        ["2026-08-13","The Spine","https://channelsintoknowledge.com/2026/08/13/the-spine/"],
+        ["2026-08-07","Embodied Land","https://channelsintoknowledge.com/2026/08/07/embodied-land/"]
+      ]
+    }
+  ];
+
+  // ---- Data: Iowa Mutual Aid current projects (excluding the personal callout, shown separately) ----
+  var IOWA_PROJECTS = [
+    {
+      name: "Iowa Trans Mutual Aid Fund (ITMAF)",
+      desc: "Gives financial help to Trans and Nonbinary people in Iowa who are accessing gender-affirming care.",
+      link: "https://iowamutualaid.org/iowa-trans-mutual-aid",
+      linkLabel: "Donate →"
+    },
+    {
+      name: "Camper Solidarity",
+      tag: "Des Moines Mutual Aid",
+      desc: "Ongoing support for unhoused people in Des Moines, organized with them — basic necessities, legal support, and eviction defense. In cold months the focus shifts to survival needs like propane and heaters.",
+      link: "https://iowamutualaid.org/camper-solidarity",
+      linkLabel: "Donate →"
+    },
+    {
+      name: "Criminal Records Expungement Program",
+      tag: "Des Moines Abolition Coalition + Des Moines Mutual Aid",
+      desc: "A free program to help people clear Iowa criminal records from the public record, making it easier to qualify for things that require background checks.",
+      link: "https://iowamutualaid.org/expungement-program",
+      linkLabel: "More info →"
+    },
+    {
+      name: "Des Moines Mutual Aid Bail Fund",
+      desc: "Posts bail for protesters so they can return to activism. Also organizes legal representation and court support for people targeted by the state. Arrest support line (DSM protest activity): (515) 218-1994.",
+      link: "https://iowamutualaid.org/bail-donate",
+      linkLabel: "Donate →"
+    },
+    {
+      name: "North Des Moines Community Fridge",
+      tag: "North DSM Mutual Aid",
+      desc: "A free community fridge and pantry at 5720 Urbandale Ave., Des Moines, IA 50310, addressing food insecurity. Anyone can take food or leave food for others.",
+      link: "https://iowamutualaid.org/north-dsm-mutual-aid-1",
+      linkLabel: "More info →"
+    },
+    {
+      name: "Prairielands Freedom Fund",
+      desc: "Pays immigration bonds and pretrial bail to free people from detention. Opposes the idea that imprisonment is necessary, and aims to reduce harm to families and communities.",
+      link: "https://www.prairielandsfreedomfund.org/donate",
+      linkLabel: "Donate →"
+    },
+    {
+      name: "Sweet Tooth Community Fridge",
+      desc: "A community fridge at 1618 6th Ave., Des Moines, IA 50314, running since December 2020. Stocked daily from donations and rescued grocery, event, and restaurant food. Open to anyone, no sign-up required. Venmo @community-fridge-dsm; food questions: 515-635-5770 or sweettoothfarm.dsm@gmail.com.",
+      link: "https://iowamutualaid.org/current-projects",
+      linkLabel: "Source page →"
+    }
+  ];
+
+  // ---- Render writings ----
+  var writingsList = document.getElementById("writings-list");
+  var blogFilter = document.getElementById("writings-blog-filter");
+  BLOGS.forEach(function(b, i){
+    var opt = document.createElement("option");
+    opt.value = i; opt.textContent = b.name;
+    blogFilter.appendChild(opt);
+  });
+
+  function escapeHtml(s){
+    return s.replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+
+  function renderWritings(){
+    var q = document.getElementById("writings-search").value.trim().toLowerCase();
+    var blogIdx = blogFilter.value;
+    writingsList.innerHTML = "";
+    var anyMatch = false;
+
+    BLOGS.forEach(function(b, i){
+      if (blogIdx !== "" && String(i) !== blogIdx) return;
+      var matches = b.posts.filter(function(p){
+        return !q || p[1].toLowerCase().indexOf(q) !== -1;
+      });
+      if (matches.length === 0) return;
+      anyMatch = true;
+
+      var det = document.createElement("details");
+      det.className = "blog-group";
+      det.open = !!q || blogIdx !== "";
+
+      var sum = document.createElement("summary");
+      sum.innerHTML = "<span>" + escapeHtml(b.name) + "</span><span class='count'>" + matches.length + " of " + b.posts.length + "</span>";
+      det.appendChild(sum);
+
+      var era = document.createElement("div");
+      era.className = "era";
+      era.textContent = b.era;
+      det.appendChild(era);
+
+      var ul = document.createElement("ul");
+      ul.className = "post-list";
+      matches.forEach(function(p){
+        var li = document.createElement("li");
+        var title = p[1];
+        var starred = title.indexOf("★") === 0;
+        var cleanTitle = starred ? title.slice(2) : title;
+        li.innerHTML = "<span class='pdate'>" + p[0] + "</span>" +
+          (starred ? "<span class='star'>★ </span>" : "") +
+          "<a href='" + p[2] + "' target='_blank' rel='noopener'>" + escapeHtml(cleanTitle) + "</a>";
+        ul.appendChild(li);
+      });
+      det.appendChild(ul);
+      writingsList.appendChild(det);
+    });
+
+    document.getElementById("writings-empty").style.display = anyMatch ? "none" : "block";
+  }
+
+  document.getElementById("writings-search").addEventListener("input", renderWritings);
+  blogFilter.addEventListener("change", renderWritings);
+  renderWritings();
+
+  // ---- Render Iowa projects ----
+  var iowaCards = document.getElementById("iowa-cards");
+  IOWA_PROJECTS.forEach(function(p){
+    var card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML =
+      (p.tag ? "<span class='tag'>" + escapeHtml(p.tag) + "</span><br>" : "") +
+      "<h3>" + escapeHtml(p.name) + "</h3>" +
+      "<p>" + escapeHtml(p.desc) + "</p>" +
+      "<p><a href='" + p.link + "' target='_blank' rel='noopener'>" + escapeHtml(p.linkLabel) + "</a></p>";
+    iowaCards.appendChild(card);
+  });
+
+  // ---- Real examples, side by side ----
+  var EXAMPLES = [
+    { side:"yes", name:"Sweet Tooth Community Fridge", note:"Anyone can take food or leave food. No sign-up, no sorting of who deserves it." },
+    { side:"yes", name:"Camper Solidarity", note:"Organized with unhoused people, not for them — they help decide what's needed." },
+    { side:"yes", name:"Prison Abolition Letter Writing", note:"A direct, two-way relationship — not a caseworker and a client." },
+    { side:"no", name:"A food pantry with an intake form", note:"Requires proof of income or need before you can receive help — gatekept, one-directional." },
+    { side:"no", name:"A government assistance program", note:"Run by the state, with eligibility rules decided far from the people it serves." },
+    { side:"no", name:"A corporate holiday food drive", note:"A one-time, one-way donation from an outside giver to \"the needy,\" with no ongoing relationship." }
+  ];
+  var examplesGrid = document.getElementById("examples-grid");
+  EXAMPLES.forEach(function(ex){
+    var card = document.createElement("div");
+    card.className = "ex-card " + ex.side;
+    card.innerHTML = "<span class='ex-tag'>" + (ex.side === "yes" ? "Mutual aid" : "Not mutual aid") + "</span>" +
+      "<h3 style='margin:0 0 6px; font-size:.96rem;'>" + escapeHtml(ex.name) + "</h3>" +
+      "<p style='margin:0;'>" + escapeHtml(ex.note) + "</p>";
+    examplesGrid.appendChild(card);
+  });
+
+  // ---- Check your own example ----
+  var QUESTIONS = [
+    {
+      q: "Is help going both directions — are the people receiving aid also treated as capable of giving it, not just as \"recipients\"?",
+      yesNote: "That's solidarity, not charity — the core of mutual aid.",
+      noNote: "A one-way flow (helper → helped) is a sign of charity, not mutual aid. Mutual aid treats everyone as capable of giving as well as receiving."
+    },
+    {
+      q: "Can anyone take part, with no application, means test, or judgment of who \"deserves\" it?",
+      yesNote: "No gatekeeping — a strong mutual aid marker.",
+      noNote: "If people have to qualify, apply, or be judged as deserving, that's gatekeeping — a classic charity structure, not mutual aid."
+    },
+    {
+      q: "Do the people affected have a real say in how it's organized and decided — not just a board or staff deciding for them?",
+      yesNote: "Shared power, not hierarchy — that's mutual aid.",
+      noNote: "When the people affected don't help decide how it runs, that's a top-down service model, not shared power."
+    },
+    {
+      q: "Is it aimed at building lasting collective capacity and change, not just a one-time or one-way handout?",
+      yesNote: "Building power and addressing root causes, not just patching a need."
+      ,noNote: "Meeting a need without changing what caused it, or without building anything lasting, is useful — but it's service delivery, not the collective-power-building that defines mutual aid."
+    },
+    {
+      q: "Does it exist because formal institutions (government, big charities) are failing or excluding people — are people meeting the need for each other directly?",
+      yesNote: "Grassroots, outside institutional charity — a classic mutual aid origin.",
+      noNote: "If it operates through, or in step with, existing institutions rather than filling a gap they're failing to fill, it may still be good work — but it isn't working the way mutual aid typically does."
+    }
+  ];
+  var qlist = document.getElementById("qlist");
+  QUESTIONS.forEach(function(item, i){
+    var div = document.createElement("div");
+    div.className = "qitem";
+    div.innerHTML = "<p>" + (i+1) + ". " + escapeHtml(item.q) + "</p>" +
+      "<div class='opts'>" +
+        "<label><input type='radio' name='q" + i + "' value='yes'> Yes</label>" +
+        "<label><input type='radio' name='q" + i + "' value='no'> No</label>" +
+        "<label><input type='radio' name='q" + i + "' value='unsure'> Not sure</label>" +
+      "</div>";
+    qlist.appendChild(div);
+  });
+
+  document.getElementById("checker-run").addEventListener("click", function(){
+    var desc = document.getElementById("checker-input").value.trim();
+    var yes = 0, no = 0, unsure = 0;
+    var notes = [];
+    QUESTIONS.forEach(function(item, i){
+      var checked = document.querySelector("input[name='q" + i + "']:checked");
+      var val = checked ? checked.value : "unsure";
+      if (val === "yes"){ yes++; notes.push({ok:true, text: item.yesNote}); }
+      else if (val === "no"){ no++; notes.push({ok:false, text: item.noNote}); }
+      else { unsure++; }
+    });
+
+    var box = document.getElementById("checker-result");
+    var verdictClass, heading;
+    if (yes >= 4){ verdictClass = "verdict-strong"; heading = "This looks like mutual aid."; }
+    else if (yes >= 2){ verdictClass = "verdict-mixed"; heading = "This has real mutual aid in it — but check the gaps below."; }
+    else { verdictClass = "verdict-weak"; heading = "As described, this leans toward charity or conventional aid, not mutual aid."; }
+
+    var html = "<h3>" + heading + "</h3>";
+    if (desc) html += "<p style='color:var(--muted); font-size:.88rem; margin:0 0 10px;'>Re: “" + escapeHtml(desc) + "”</p>";
+    html += "<p style='margin:0 0 6px; font-size:.9rem;'>" + yes + " of 5 markers point toward mutual aid" + (unsure ? ", " + unsure + " left unsure" : "") + ".</p>";
+    if (notes.length){
+      html += "<ul>";
+      notes.forEach(function(n){
+        html += "<li>" + (n.ok ? "✓ " : "✗ ") + escapeHtml(n.text) + "</li>";
+      });
+      html += "</ul>";
+    }
+    if (unsure){
+      html += "<p style='margin-top:10px; font-size:.88rem; color:var(--muted);'>You weren't sure about " + unsure + " of these — that's often exactly where it's worth asking more questions before deciding.</p>";
+    }
+
+    box.className = "result " + verdictClass;
+    box.innerHTML = html;
+    box.hidden = false;
+  });
+
+  // ---- Tabs ----
+  var tabs = document.querySelectorAll('nav.tabs button');
+  tabs.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabs.forEach(function(b){ b.setAttribute('aria-selected','false'); });
+      btn.setAttribute('aria-selected','true');
+      document.querySelectorAll('section.panel').forEach(function(p){ p.classList.remove('active'); });
+      document.getElementById(btn.dataset.target).classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>
