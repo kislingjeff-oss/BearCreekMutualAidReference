@@ -6,7 +6,7 @@
 <title>Mutual Aid — Quaker Discernment</title>
 <style>
   :root{
-    --bg:#f6f9fc; --panel:#ffffff; --ink:#33475c; --muted:#72869c;
+    --bg:#f6f9fc; --panel:#ffffff; --ink:#33475c; --muted:#51607a;
     --line:#d8e3ee; --accent:#6f93bf; --accent-dark:#3d6693; --star:#2f5f8f;
     --accent-solid:#2f4d75;
     --chip:#eaf1f8; --shadow: 0 2px 10px rgba(51,71,92,0.07);
@@ -42,7 +42,7 @@
     margin:0; color:var(--muted); font-size:.95rem; max-width:720px;
   }
   blockquote.opening-quote{
-    margin:16px 0 0; padding:14px 18px; max-width:720px;
+    margin:16px 0 0; padding:14px 18px; max-width:960px;
     background:var(--chip); border-left:4px solid var(--accent-solid); border-radius:0 var(--radius) var(--radius) 0;
     font-size:1rem; font-style:italic; color:var(--ink); line-height:1.55;
   }
@@ -166,6 +166,18 @@
   .result h3{margin:0 0 10px; font-size:1.02rem;}
   .result ul{margin:10px 0 0; padding-left:1.2em; font-size:.9rem;}
   .result li{margin-bottom:6px;}
+
+  .epistle-body{max-width:720px; margin:0 auto;}
+  .epistle-body p{margin:0 0 16px; font-size:.97rem; line-height:1.6;}
+  .epistle-body h3{margin:30px 0 10px; font-size:1.08rem; color:var(--star);}
+  .epistle-body .equote{font-style:italic; padding:2px 0 2px 16px; border-left:3px solid var(--accent-solid);}
+  .epistle-body .eattrib{font-style:italic; color:var(--muted); font-size:.9rem; margin-top:-10px;}
+  .epistle-body .esource{font-style:italic; color:var(--muted); font-size:.85rem;}
+  .epistle-body .enote{font-style:italic; color:var(--muted); font-size:.85rem; margin-top:30px;}
+
+  .points-list{max-width:720px; margin:0 auto; padding-left:1.5em;}
+  .points-list li{margin-bottom:22px; font-size:.97rem; line-height:1.6; padding-left:6px;}
+  .points-list li::marker{font-weight:700; color:var(--star);}
 </style>
 </head>
 <body>
@@ -173,17 +185,19 @@
 <header>
   <h1>Mutual Aid — Quaker Discernment</h1>
   <p>Reference material gathered the morning of Oct 25, 2026: Jeff Kisling's own writing on mutual aid across his eight blogs (2015–present), a look at Iowa Mutual Aid's current, operating projects, and a plain-language check for what mutual aid is and isn't. Built for Quaker meeting's discernment on moving from committee to mutual aid.</p>
-  <blockquote class="opening-quote">I did not really understand mutual aid until someone had to point out to me directly — that I wasn't actually acting as part of the community unless I also took some of the donated food myself.</blockquote>
+  <blockquote class="opening-quote">I did not really understand mutual aid until someone had to point out to me directly — that I wasn't actually acting as part of the community unless I also took some of the donated food myself. <span style="font-style:normal; font-size:.85rem; color:var(--muted); white-space:nowrap;">— Jeff Kisling</span></blockquote>
 </header>
 
 <nav class="tabs" role="tablist">
-  <button role="tab" aria-selected="true" data-target="writings">My Writings on Mutual Aid</button>
-  <button role="tab" aria-selected="false" data-target="iowa">Iowa Mutual Aid — Current Projects</button>
+  <button role="tab" aria-selected="true" data-target="epistle">The Epistle</button>
+  <button role="tab" aria-selected="false" data-target="pou">Points of Unity</button>
   <button role="tab" aria-selected="false" data-target="checker">Is This Mutual Aid?</button>
+  <button role="tab" aria-selected="false" data-target="writings">My Writings on Mutual Aid</button>
+  <button role="tab" aria-selected="false" data-target="iowa">Iowa Mutual Aid — Current Projects</button>
 </nav>
 
 <main>
-  <section class="panel active" id="writings">
+  <section class="panel" id="writings">
     <div class="search-row">
       <input type="search" id="writings-search" placeholder="Search titles…" aria-label="Search posts">
       <select id="writings-blog-filter" aria-label="Filter by blog">
@@ -192,11 +206,11 @@
     </div>
 
     <div class="callout">
-      <h2>⭐ Most directly relevant to Bear Creek right now</h2>
+      <h2>⭐ Most directly relevant to a Quaker meeting right now</h2>
       <ul>
         <li><strong><a href="https://newconscientiousobjector.com/2025/06/27/earlham-bear-creek-mutual-aid/" target="_blank" rel="noopener">Earlham-Bear Creek Mutual Aid</a></strong> (2025-06-27, New Conscientious Objector) — an initial look at Bear Creek Meeting developing more intentional mutual aid resources with the wider Earlham community.</li>
         <li><strong><a href="https://newconscientiousobjector.com/2025/06/27/consolidated-history-of-iymc-mutual-aid/" target="_blank" rel="noopener">Consolidated history of IYMC Mutual Aid</a></strong> (2025-06-27, New Conscientious Objector) — a historical analysis of Iowa Yearly Meeting (Conservative)'s past social welfare activities through the lens of mutual aid versus charity.</li>
-        <li><strong>An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK</strong> — written three times: <a href="https://landbackfriends.com/2023/10/09/an-epistle-to-friends-regarding-community-mutual-aid-and-landback/" target="_blank" rel="noopener">LANDBACK Friends, 2023-10-09</a> · <a href="https://unflinching.blog/2025/01/24/an-epistle-to-friends-regarding-community-mutual-aid-and-landback/" target="_blank" rel="noopener">Unflinching, 2025-01-24</a> · <a href="https://newconscientiousobjector.com/2025/10/29/an-epistle-to-friends-regarding-community-mutual-aid-and-landback/" target="_blank" rel="noopener">NewCO, 2025-10-29</a> — Jeff's standing epistle laying out the theological case to Friends.</li>
+        <li><strong>An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK</strong> — Jeff's standing epistle laying out the theological case to Friends. Read it in full under the Epistle tab.</li>
         <li><strong><a href="https://newconscientiousobjector.com/2025/07/01/bridging-mutual-aid-and-decolonial-justice/" target="_blank" rel="noopener">Bridging Mutual Aid and Decolonial Justice</a></strong> (2025-07-01, NewCO) — connects the Prairie Awakening/Prairie Awoke event at Kuehn Conservation Area to the wider mutual aid and decolonial work.</li>
       </ul>
     </div>
@@ -226,6 +240,44 @@
     </p>
   </section>
 
+  <section class="panel active" id="epistle">
+    <div class="callout">
+      <h2>An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK</h2>
+      <p style="color:var(--muted); font-size:.9rem; margin-top:-6px;">By Jeff Kisling. Published at <a href="https://landbackfriends.com/2023/10/09/an-epistle-to-friends-regarding-community-mutual-aid-and-landback/" target="_blank" rel="noopener">LANDBACK Friends</a> (2023-10-09), <a href="https://unflinching.blog/2025/01/24/an-epistle-to-friends-regarding-community-mutual-aid-and-landback/" target="_blank" rel="noopener">Unflinching</a> (2025-01-24), and <a href="https://newconscientiousobjector.com/2025/10/29/an-epistle-to-friends-regarding-community-mutual-aid-and-landback/" target="_blank" rel="noopener">New Conscientious Objector</a> (2025-10-29).</p>
+    </div>
+
+    <div class="epistle-body">
+      <p>Dear Friends,</p>
+      <p>The measure of a community is how the needs of its people are met. No one should go hungry, or without shelter or healthcare. Yet in this country known as the United States millions struggle to survive. The capitalist economic system creates hunger, houselessness, illness that is preventable and despair. A system that requires money for goods and services denies basic needs to anyone who does not have money. Black, Indigenous, and other people of color (BIPOC) are disproportionately affected. Systemic racism. The capitalist system that supports the white materialistic lifestyle is built on stolen land and genocide of Indigenous peoples, and the labor of those who were enslaved in the past or are forced to live on poverty wages today.</p>
+      <p>Capitalism is revealed as an unjust, untenable system, when there is plenty of food in the grocery stores, but men, women and children are going hungry, living on the streets outside. White supremacy violently enforces the will of wealthy white people on the rest of us.</p>
+      <p>It has become clear to some of us who are called Friends that the colonial capitalist economic system and white supremacy are contrary to the Spirit and we must find a better way. We conscientiously object to capitalism and white supremacy.</p>
+      <p class="equote">capitalism has violated the communities of marginalized folks. capitalism is about the value of people, property and the people who own property. those who have wealth and property control the decisions that are made. the government comes second to capitalism when it comes to power.</p>
+      <p class="equote">in the name of liberation, capitalism must be reversed and dismantled. meaning that capitalistic practices must be reprogrammed with mutual aid practices.</p>
+      <p class="eattrib">— Des Moines Black Liberation Movement</p>
+
+      <h3>Mutual Aid</h3>
+      <p>What do we do instead? We rebuild our communities in ways not based upon money. Such communities thrive all over the world. Indigenous peoples have always lived this way. Generations of white people once did so in this country. Mutual Aid is a framework that can help us do this today.</p>
+      <p>The concept of Mutual Aid is simple to explain but can result in transformative change. Mutual Aid involves everyone coming together to find a solution for problems we all face. This is a radical departure from "us" helping "them". Instead, we all work together to find and implement solutions. To work together means we must be physically present with each other. Mutual Aid cannot be done by committee or donations. We build Beloved Community as we get to know each other. Build solidarity. An important part of Mutual Aid is creating these networks of people who know and trust each other. When new challenges arise, these networks are in place, ready to meet them.</p>
+      <p>Another important part of Mutual Aid is the transformation of those involved. This means both those who are providing help, and those receiving it.</p>
+      <p>With Mutual Aid, people learn to live in a community where there is no vertical hierarchy. A community where everyone has a voice. A model that results in enthusiastic participation. A model that makes the vertical hierarchy required for white supremacy impossible.</p>
+      <p>Commonly there are several Mutual Aid projects in a community. The initial projects usually relate to survival needs. One might be a food giveaway. Another helping those who need shelter. Many Mutual Aid groups often have a bail fund, to support those arrested for agitating for change. And accompany those arrested when they go to court.</p>
+
+      <h3>LANDBACK</h3>
+      <p>The other component necessary to move away from colonial capitalism and white supremacy is LANDBACK.</p>
+      <p class="equote">But the idea of "landback" — returning land to the stewardship of Indigenous peoples — has existed in different forms since colonial governments seized it in the first place. "Any time an Indigenous person or nation has pushed back against the oppressive state, they are exercising some form of landback," says Nickita Longman, a community organizer from George Gordon First Nation in Saskatchewan, Canada.</p>
+      <p class="equote">The movement goes beyond the transfer of deeds to include respecting Indigenous rights, preserving languages and traditions, and ensuring food sovereignty, housing, and clean air and water. Above all, it is a rallying cry for dismantling white supremacy and the harms of capitalism.</p>
+      <p class="esource">Source: Claire Elise Thompson, "Returning the Land: Four Indigenous Leaders Share Insights About the Growing Landback Movement and What It Means for the Planet," Grist, February 25, 2020.</p>
+
+      <h3>What will Friends do?</h3>
+      <p>It matters little what people say they believe when their actions are inconsistent with their words. Thus, we Friends may say there should not be hunger and poverty, but as long as Friends continue to collaborate in a system that leaves many without basic necessities and violently enforces white supremacy, our example will fail to speak to the world.</p>
+      <p>Let our lives speak for our convictions. Let our lives show that we oppose the capitalist system and white supremacy, and the damages that result. We can engage in efforts, such as Mutual Aid and LANDBACK, to build Beloved Community. To reach out to our neighbors to join us.</p>
+      <p>We must begin by changing our own lives if we hope to make a real testimony for peace and justice.</p>
+      <p>We remain, in love of the Spirit, your Friends, sisters, and brothers,</p>
+      <p>Jeff Kisling</p>
+      <p class="enote">Note: Modeled from 'An Epistle to Friends Concerning Military Conscription'</p>
+    </div>
+  </section>
+
   <section class="panel" id="checker">
     <div class="callout">
       <h2>The core distinction</h2>
@@ -249,7 +301,7 @@
     <div class="examples-grid" id="examples-grid"></div>
 
     <h2 style="font-size:1.05rem; margin:28px 0 14px;">Check your own example</h2>
-    <p style="color:var(--muted); font-size:.92rem; margin:-4px 0 16px;">Describe something you think might be mutual aid — a program, an action, an idea for Bear Creek — then answer the five questions about it as honestly as you can. This is a way to think it through, not a verdict machine.</p>
+    <p style="color:var(--muted); font-size:.92rem; margin:-4px 0 16px;">Describe something you think might be mutual aid — a program, an action, an idea for a Quaker meeting — then answer the five questions about it as honestly as you can. This is a way to think it through, not a verdict machine.</p>
 
     <textarea id="checker-input" rows="3" placeholder="Describe the activity, program, or idea you're weighing…"></textarea>
 
@@ -259,10 +311,25 @@
 
     <div class="result" id="checker-result" hidden></div>
   </section>
+
+  <section class="panel" id="pou">
+    <div class="callout">
+      <h2><a href="https://iowamutualaid.org/points-of-unity" target="_blank" rel="noopener">Des Moines Mutual Aid — Points of Unity</a></h2>
+      <p style="color:var(--muted); font-size:.9rem; margin-top:-6px;">Updated 2025. Reproduced as written — this is Des Moines Mutual Aid's own statement, not Jeff's.</p>
+    </div>
+    <ol class="points-list" start="0">
+      <li>We believe in working shoulder to shoulder and standing in solidarity with all oppressed communities. We ourselves are oppressed, and our mutual aid work is a fight for our collective liberation. We do not believe in a top-down model of charity. Instead, we contrast our efforts at horizontal mutual aid, the fostering of mutually beneficial relationships and communities, to dehumanizing and colonizing charity.</li>
+      <li>We believe in community autonomy. We believe that the communities we live and organize in have been largely excluded from state social services, but intensely surveilled and policed by the state repressive apparatus. Capitalism is fundamentally unable to meet people's needs. We want to build self-sustaining communities that are independent of the capitalist state, both materially and ideologically, and can resist its repression.</li>
+      <li>We are police and prison abolitionists. Abolition and the mutual aid that we practice are inextricably linked. We don't rely on capitalist institutions or the police to do our work. We believe in building strong and resilient communities which make police obsolete, including community systems of accountability and crisis intervention.</li>
+      <li>We work to raise the political consciousness of our communities. Part of political education is connecting people's lived experiences to a broader political perspective. Another component is working to ensure that people can meet their basic needs. It is difficult to organize for future liberation when someone is entrenched in day-to-day struggle.</li>
+      <li>We have open disagreements with each other about ideas and practices. We believe there is no formula for resolving our ideological differences other than working towards our common aims, engaging with each other in a comradely manner, and respecting one another, whether or not we can hash out disagreements in the process.</li>
+      <li>We are a revolutionary organization. We are united in a basic agreement that the ultimate goal of revolution is the abolition of the state and of social classes, and that the state's institutions are not a means to achieving that end. We are against participation in electoral politics, because we are for the development of mutual aid as an alternative and widespread institution.</li>
+    </ol>
+  </section>
 </main>
 
 <footer>
-  Compiled for Bear Creek Friends Meeting. Full text of Jeff's posts lives on his Drive under <code>1.0 All Blog Posts/&lt;blog-name&gt;/&lt;year&gt;/</code>. Companion documents: <em>mutual-aid-writings-index.md</em> and <em>iowa-mutual-aid-current-projects.md</em>.
+  Compiled for a Quaker meeting's mutual aid discernment. Full text of Jeff's posts lives on his Drive under <code>1.0 All Blog Posts/&lt;blog-name&gt;/&lt;year&gt;/</code>. Companion documents: <em>mutual-aid-writings-index.md</em> and <em>iowa-mutual-aid-current-projects.md</em>.
 </footer>
 
 <script>
